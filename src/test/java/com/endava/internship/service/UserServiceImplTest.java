@@ -3,8 +3,6 @@ package com.endava.internship.service;
 
 import com.endava.internship.domain.Privilege;
 import com.endava.internship.domain.User;
-import com.endava.internship.service.UserService;
-import com.endava.internship.service.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -140,6 +138,19 @@ public class UserServiceImplTest {
 
         final Optional<String> mostFrequentLastName =
                 userService.getMostFrequentLastName(asList(user1, user2, user3));
+
+        assertThat(mostFrequentLastName).isEmpty();
+    }
+
+    @Test
+    void shouldReturnOptionalEmptyIfNumberOfLastNamesIsTheSame() {
+        final User user1 = new User(1L, "John", "Doe", 26, singletonList(Privilege.UPDATE));
+        final User user2 = new User(2L, "Greg", "Doe", 30, singletonList(Privilege.UPDATE));
+        final User user3 = new User(3L, "Alex", "Smith", 13, singletonList(Privilege.DELETE));
+        final User user4 = new User(3L, "John", "Smith", 25, singletonList(Privilege.DELETE));
+
+        final Optional<String> mostFrequentLastName =
+                userService.getMostFrequentLastName(asList(user1, user2, user3, user4));
 
         assertThat(mostFrequentLastName).isEmpty();
     }
